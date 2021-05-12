@@ -1,0 +1,36 @@
+<li
+{% for tech in rea.techs  %}
+    data-{{tech}}="true"
+{% endfor %}
+data-type="{{ rea.type }}">
+    <div class="uk-card uk-card-default uk-animation-slide-right" style="animation-delay: {{ loop.index0 * 0.33 }}s;">
+        <div class="uk-card-header uk-background-secondary">
+            <h3 class="uk-card-title uk-text-center uk-text-white">{{rea.title}}</h3>
+        </div>
+        <div class="uk-card-media-top uk-card-header uk-padding-remove">
+
+            <div class="uk-position-relative" tabindex="-1" uk-slideshow>
+                <ul class="uk-slideshow-items" uk-lightbox>
+                    {% for img in 1..rea.imgs %}
+                        <li>
+                            <a href="/uploads/realisations/{{rea.id}}-{{img}}.png"><img src="/uploads/realisations/{{rea.id}}-{{img}}.png" alt="" uk-cover></a>
+                        </li>
+                    {% endfor %}
+                </ul>
+                <a class="uk-position-center-left uk-position-small uk-hidden-hover" href="#" uk-slidenav-previous uk-slideshow-item="previous"></a>
+                <a class="uk-position-center-right uk-position-small uk-hidden-hover" href="#" uk-slidenav-next uk-slideshow-item="next"></a>
+                <ul class="uk-position-bottom-center uk-slideshow-nav uk-dotnav uk-flex-center uk-margin"></ul>
+
+            </div>
+        </div>
+        <div class="uk-card-body">
+            <p>{{rea.text}}</p>
+        </div>
+        <div class="uk-card-footer uk-background-secondary">
+            <div class="uk-flex uk-flex-between uk-light">
+                <a target="_blank" href="{{ rea.url == "private" ? "#" : rea.url }}" class="uk-button uk-button-small uk-button-{{ rea.url == "private" ? "default uk-disabled uk-text-muted" : "secondary"}} ">{{ rea.url == "private" ? ('<span uk-icon="lock" class="uk-margin-small-right"></span>Confidentiel' | raw) : "Découvrir" }}</a>
+                {% if rea.git and rea.git != "none" %}<a target="_blank" href="{{ rea.git }}" class="uk-button uk-button-small uk-button-default"><span uk-icon="github" class="uk-margin-small-right"></span> GitHub</a>{% endif %}
+            </div>
+        </div>
+    </div>
+</li>

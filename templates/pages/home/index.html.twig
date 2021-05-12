@@ -1,24 +1,33 @@
 {% extends "base.html.twig" %}
+{% set tab = app.request.get("tab") %}
+{% set tablist = {
+    "home" : "Accueil",
+    "profil" : "Qui suis-je",
+    "realisations" : "Réalisations",
+    "contact" : "Contactez-moi !",
+    "cv" : "Mon CV"
+} %}
 
-{% block title %}Accueil - Benjamin Alerte{% endblock %}
+{% set metatitle = tab ? tablist[tab | replace({'tab-':''})] : "Accueil" %}
+
+{% block title %}{{metatitle}} - Benjamin Alerte{% endblock %}
 
 {% block body %}
 
-<div class="uk-section">
+
+<div class="uk-section uk-animation-fade"  uk-height-viewport="expand: true" >
     <div class="uk-container">
-        <div class="uk-flex uk-flex-right">
-            <ul class="uk-subnav uk-subnav-pill" uk-switcher>
-                <li><a href="#">Profil</a></li>
-                <li><a href="#">Réalisations</a></li>
-                <li><a href="#">Contact</a></li>
-                <li><a href="#">Mon CV</a></li>
+        <div class="uk-flex uk-flex-right uk-flex-top">
+            <ul id="page-nav" class="uk-subnav uk-subnav-pill" uk-switcher="connect : #page-switcher; animation: uk-animation-fade">
+                {% for t,fr in tablist %}
+                    <li data-index="{{ loop.index0 }}" class="{{ tab == ("tab-" ~ t) ? "uk-active" }}"><a data-controller="tab" data-target="tab-{{ t }}" href="#">{{ fr }}</a></li>  
+                {% endfor %}
             </ul>
         </div>
-        <ul class="uk-switcher uk-margin">
-            <li>Hello!</li>
-            <li>Hello again!</li>
-            <li>Bazinga!</li>
-            <li>Bazinga 2!</li>
+        <ul class="uk-switcher uk-margin" id="page-switcher">
+            {% for t,fr in tablist %}
+                <li class="{{ tab == ("tab-" ~ t) ? "uk-active" }}">{% include "pages/home/" ~ t ~ ".html.twig" %}</li>
+            {% endfor %}
         </ul>
     </div>
 </div>

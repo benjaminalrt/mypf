@@ -16,3 +16,11 @@ import Icons from 'uikit/dist/js/uikit-icons';
 
 // loads the Icon plugin
 UIkit.use(Icons);
+
+window.onpopstate = function() {
+    let switcher = document.getElementById("page-nav");
+    const urlParams = new URLSearchParams(window.location.search);
+    const myParam = urlParams.get('tab');
+    let indexToShow = document.querySelector("[data-target='"+ myParam +"']").parentElement.dataset.index
+    UIkit.switcher(switcher).show(indexToShow)
+}
