@@ -14,3 +14,12 @@ body, h1, h2, h3, h4, h5, h6, p {
 html{
     overflow-y: overlay;
 }
+
+.heart-marker {
+    top: -8px;
+    right: -10px;
+    path {
+        fill: #c00;
+        stroke: black;
+    }
+}

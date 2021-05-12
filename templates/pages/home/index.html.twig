@@ -2,7 +2,7 @@
 {% set tab = app.request.get("tab") %}
 {% set tablist = {
     "home" : "Accueil",
-    "profil" : "Qui suis-je",
+    "profil" : "Profil",
     "realisations" : "Réalisations",
     "contact" : "Contactez-moi !",
     "cv" : "Mon CV"
@@ -18,7 +18,7 @@
 <div class="uk-section uk-animation-fade"  uk-height-viewport="expand: true" >
     <div class="uk-container">
         <div class="uk-flex uk-flex-right uk-flex-top">
-            <ul id="page-nav" class="uk-subnav uk-subnav-pill" uk-switcher="connect : #page-switcher; animation: uk-animation-fade">
+            <ul id="page-nav" class="uk-subnav uk-subnav-pill uk-flex-center uk-flex-left@s" uk-switcher="connect : #page-switcher; animation: uk-animation-fade">
                 {% for t,fr in tablist %}
                     <li data-index="{{ loop.index0 }}" class="{{ tab == ("tab-" ~ t) ? "uk-active" }}"><a data-controller="tab" data-target="tab-{{ t }}" href="#">{{ fr }}</a></li>  
                 {% endfor %}
