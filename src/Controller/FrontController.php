@@ -5,6 +5,7 @@ use Symfony\Component\Mime\Email;
 use Symfony\Component\Mime\Address;
 use App\Repository\RealisationRepository;
 use Symfony\Bridge\Twig\Mime\TemplatedEmail;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Mailer\MailerInterface;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -22,10 +23,11 @@ class FrontController extends AbstractController
     }
 
     /**
-     * @Route("/test", name="emailtest")
+     * @Route("/contact-form", name="contact_form", methods="POST")
      */
-    public function test(MailerInterface $mailer)
+    public function contact_form(MailerInterface $mailer, Request $request)
     {
+        dd($request);
         $email = (new Email())
             ->from(new Address('contact@benjaminalerte.fr','Benjamin Alerte'))
             ->to("benjamin.alrt@gmail.com")
