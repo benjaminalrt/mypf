@@ -2,29 +2,52 @@
 <div>
     <h2>Me contacter</h2>
     <p>Vous pouvez me contacter via ce <b>formulaire</b>, ou utilisez directement mes <b>informations de contact au-dessus</b>.</p>
+    {% for message in app.flashes('danger') %}
+        <div class="uk-alert-danger" uk-alert>
+            <a class="uk-alert-close" uk-close></a>
+            <p>{{ message }}</p>
+        </div>
+    {% endfor %}
+
+    {% for message in app.flashes('success') %}
+    <div class="uk-alert-success" uk-alert>
+        <p>{{ message }}</p>
+    </div>
+    {% endfor %}
+
+        
     <div class="uk-margin-large-top" uk-grid>
         <div class="uk-width-2-3">
-            <form class="uk-grid-small" action="#" uk-grid>
+            <form id="contact-form" class="uk-grid-small" action="{{ path('contact_form') }}" method="POST" uk-grid>
                 <legend class="uk-legend">Formulaire de contact</legend>
 
                 <div class="uk-width-1-2">
-                    <input class="uk-input" type="text" placeholder="Votre nom">
+                    <input class="uk-input" required type="text" name="last_name" placeholder="Votre nom *">
                 </div>
-
                 <div class="uk-width-1-2">
-                    <input class="uk-input" type="text" placeholder="Votre prénom">
+                    <input class="uk-input" required type="text" name="first_name" placeholder="Votre prénom *">
                 </div>
-
+                <div class="uk-width-1-2">
+                    <input class="uk-input" type="text" name="email" placeholder="Votre email">
+                </div>
+                <div class="uk-width-1-2">
+                    <input class="uk-input" type="text" name="phone" placeholder="Votre téléphone">
+                </div>
+                <div hidden class="uk-width-1-2">
+                    <input  class="uk-input" type="text" name="cellphone" placeholder="Votre téléphone portable">
+                </div>
                 <div class="uk-width-1-1">
-                    <input class="uk-input" type="text" placeholder="Objet">
+                    <input class="uk-input" required type="text" name="object" placeholder="Objet *">
                 </div>
-
                 <div class="uk-width-1-1">
-                    <textarea class="uk-textarea" rows="5" placeholder="Votre message"></textarea>
+                    <textarea class="uk-textarea" required rows="5" name="message" placeholder="Votre message *"></textarea>
                 </div>
 
-                <div class="uk-width-1-2 um-margin-auto-left">
-                    <input class="uk-button uk-button-secondary" type="submit" value="Envoyer">
+                <div class="uk-width-1-2 uk-margin-auto-left">
+                    <button class="uk-float-right g-recaptcha uk-button uk-button-secondary" 
+                        data-sitekey="{{ site_captcha }}" 
+                        data-callback='onSubmit' 
+                        data-action='submit'>Envoyer</button>
                 </div>
             </form>
         </div>

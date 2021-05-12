@@ -1,0 +1,47 @@
+{% extends 'base-admin.html.twig' %}
+
+{% block title %}Connexion{% endblock %}
+
+{% block body %}
+
+{% if app.user %}
+    <h3 class="uk-card-title uk-text-center">
+        Bienvenue, {{ app.user.username | capitalize }} ! <br><br>
+        <a href="{{ path('home') }}">Accueil</a><br><br>
+    </h3>
+{% else %}
+    <div class="uk-width-large uk-margin-auto">
+        <div class="uk-card uk-card-default uk-card-body">
+            <h3 class="uk-card-title uk-text-center">Veuillez vous identifier</h3>
+            <form id="login-form" action="{{ path('app_login') }}" method="post">
+                <div class="uk-margin">
+                    
+                    <label for="inputUsername">Identifiant:</label>
+                    <div class="uk-inline uk-width-1-1">
+                        <span class="uk-form-icon" uk-icon="icon: user"></span>
+                        <input type="text" value="{{ last_username }}" name="username" id="inputUsername" class="uk-input uk-form-large" required autofocus>
+                    </div>
+                </div>
+                <div class="uk-margin">
+                    <label for="inputPassword">Mot de passe:</label>
+                    <div class="uk-inline uk-width-1-1">
+                        <span class="uk-form-icon" uk-icon="icon: lock"></span>
+                        <input type="password" name="password" id="inputPassword" class="uk-input uk-form-large" required>	
+                    </div>
+                </div>
+                <div class="uk-margin">
+                    <button class="g-recaptcha uk-button uk-button-primary uk-button-large uk-width-1-1" data-sitekey="{{ site_captcha }}" data-callback='onSubmit' data-action='submit' type="submit">SE CONNECTER</button>
+                </div>
+                    <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
+                {% if error %}
+                <div class="uk-alert-danger" uk-alert>
+                    <p>{{ error.messageKey|trans(error.messageData, 'security') }}</p>
+                </div>
+                {% endif %}
+            </form>
+        </div>
+    </div>
+
+{% endif %}
+
+{% endblock %}

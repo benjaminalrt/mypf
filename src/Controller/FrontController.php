@@ -1,6 +1,7 @@
 <?php
 namespace App\Controller;
 
+use App\Service\RecaptchaChecker;
 use Symfony\Component\Mime\Email;
 use Symfony\Component\Mime\Address;
 use App\Repository\RealisationRepository;
@@ -25,15 +26,33 @@ class FrontController extends AbstractController
     /**
      * @Route("/contact-form", name="contact_form", methods="POST")
      */
-    public function contact_form(MailerInterface $mailer, Request $request)
+    public function contact_form(MailerInterface $mailer, Request $request, RecaptchaChecker $checker)
     {
-        dd($request);
-        $email = (new Email())
-            ->from(new Address('contact@benjaminalerte.fr','Benjamin Alerte'))
-            ->to("benjamin.alrt@gmail.com")
-            ->subject('Nouveau message')
-            ->text('test');
-        $mailer->send($email);
-        dd("true");
+        $recaptcha = $request->request->get("g-recaptcha-response");
+        $challenge = $checker->isValid($recaptcha);
+
+        $recaptcha = $request->request->get("phone");
+
+        if($challenge)
+        {
+            $arr = [];
+            foreach($request->request as $field => $value)
+            {
+                $arr[$field] = $value;
+            }
+            $email = (new Email())
+                ->from(new Address('contact@benjaminalerte.fr','Benjamin Alerte'))
+                ->to("contact@benjaminalerte.fr")
+                ->subject('Nouveau message')
+                ->text(json_encode($arr));
+            $mailer->send($email);
+            $this->addFlash('success','Votre message a bien été reçu. Je reviendrais vers vous au plus vite !');
+        }
+        else
+        {
+            $this->addFlash('danger','Êtes-vous un robot ? :/ Votre score Google Captcha a été jugé trop faible.');
+        }
+
+        return $this->redirectToRoute("home", ["tab" => "tab-contact"]);
     }
 }

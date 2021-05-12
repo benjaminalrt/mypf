@@ -1,2 +1,4 @@
 twig:
     default_path: '%kernel.project_dir%/templates'
+    globals:
+        site_captcha: '6Lcnz9EaAAAAAFamAjx2s-uBQuUOIaRg1A9Et3Jz'

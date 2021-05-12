@@ -8,7 +8,13 @@
         {% block stylesheets %}
             {{ encore_entry_link_tags('app') }}
         {% endblock %}
-
+        
+        <script src="https://www.google.com/recaptcha/api.js"></script>
+        <script>
+           function onSubmit(token) {
+             document.getElementById("contact-form").submit();
+            }
+        </script>
         {% block javascripts %}
             {{ encore_entry_script_tags('app') }}
         {% endblock %}
@@ -17,7 +23,7 @@
         {% block header %}
             {% include "components/header.html.twig" %}
         {% endblock %}
-
+        
         {% block body %}{% endblock %}
 
         {% block footer %}

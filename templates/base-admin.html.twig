@@ -8,7 +8,12 @@
         {% block stylesheets %}
             {{ encore_entry_link_tags('app') }}
         {% endblock %}
-
+        <script src="https://www.google.com/recaptcha/api.js"></script>
+        <script>
+           function onSubmit(token) {
+             document.getElementById("login-form").submit();
+            }
+        </script>
         {% block javascripts %}
             {{ encore_entry_script_tags('app') }}
         {% endblock %}
@@ -17,10 +22,12 @@
         {% block header %}
         {% endblock %}
 
-        <div class="uk-section uk-container">
-        {% block body %}
-            
-        {% endblock %}
+        <div class="uk-section uk-background-secondary" uk-height-viewport="expand: true">
+            <div class="uk-container">
+                {% block body %}
+                    
+                {% endblock %}
+            </div>
         </div>
 
         {% block footer %}
